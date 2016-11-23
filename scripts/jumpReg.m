@@ -11,8 +11,9 @@ function [beta,beta_tilde] = jumpReg(sret,ret,Q,c,jump_loc,nj)
 % nj: number of jumps in the market return
 %
 % OUTPUT
-% beta: jump beta that minimizes the F-conditional asymptotic variance
-% beta_tilde: consistent estimator for true jump beta
+% beta: jump beta estimator (efficient) that minimizes the F-conditional 
+%       asymptotic variance
+% beta_tilde: consistent estimator for true jump beta (inefficient)
 %
 
 beta_tilde = Q(1,2)/Q(1,1);
