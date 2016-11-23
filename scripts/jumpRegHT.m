@@ -1,4 +1,4 @@
-function [cv,rho,zeta] = jumpRegHT(ret,jump_loc,c,Q,nj,alpha)
+function [cv,rho,zeta] = jumpRegHT(ret,jump_loc,c,Q,nj,alpha,sim)
 % jumpRegHT calculates the critical value of the hypothesis test for the
 %           jump beta being a constant
 %
@@ -22,7 +22,7 @@ function [cv,rho,zeta] = jumpRegHT(ret,jump_loc,c,Q,nj,alpha)
 %       jump covariation matrix
 % 
 
-sim = 1000; % number of monte carlo simulations
+% sim = 10000; % number of monte carlo simulations
 r_d = ret(jump_loc);
 aux = sum(r_d.^2); % sum of market return jumps squared
 

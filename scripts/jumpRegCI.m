@@ -1,4 +1,4 @@
-function [CI_low, CI_up] = jumpRegCI(beta,alpha,ret,c,Q,jump_loc,nj,delta_n)
+function [CI_low, CI_up] = jumpRegCI(beta,alpha,ret,c,Q,jump_loc,nj,delta_n,sim)
 % jumpRegCI calculates the confidence intervals for the true jump beta
 %           using Monte Carlo simulations
 %
@@ -20,7 +20,7 @@ function [CI_low, CI_up] = jumpRegCI(beta,alpha,ret,c,Q,jump_loc,nj,delta_n)
 %
 
 beta_tilde = Q(1,2)/Q(1,1);
-sim = 1000;
+% sim = 10000; % number of monte carlo simulations
 zeta = zeros(sim,1);
 
 for m = 1:sim

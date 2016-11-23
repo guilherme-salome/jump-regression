@@ -25,7 +25,7 @@ for i = 1:nj
     kappa = unifrnd(0,1);
     xsi_minus = normrnd(0,1,2,1);
     xsi_plus = normrnd(0,1,2,1);
-    R{i} = sqrt(kappa)*sqrtm(c{i,2})*xsi_minus+sqrt(1-kappa)*sqrtm(c{i,1})*xsi_plus;
+    R{i} = sqrt(kappa)*sqrtm(c{i,1})*xsi_minus+sqrt(1-kappa)*sqrtm(c{i,2})*xsi_plus;
     sigma(i) = D*R{i};
 end
 

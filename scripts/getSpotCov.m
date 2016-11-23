@@ -29,20 +29,20 @@ for i = 1:length(j_loc)
     if (j_loc(i) + kn > top || j_loc(i) - kn < bot)
         flag(i) = 1;
     end
+
+    c_minus = zeros(2,2);
+    for j = 0:(kn-1)
+        X = [r_c(j_loc(i)-kn+j);sr_c(j_loc(i)-kn+j)];
+        c_minus = c_minus + X*X';
+    end
+    c{i,1} = c_minus*(n/kn);    
     
     c_plus = zeros(2,2);
     for j = 1:kn
         X = [r_c(j_loc(i)+j);sr_c(j_loc(i)+j)];
         c_plus = c_plus + X*X';
     end
-    c{i,1} = c_plus*(n/kn);
-    
-    c_minus = zeros(2,2);
-    for j = 0:(kn-1)
-        X = [r_c(j_loc(i)-kn+j);sr_c(j_loc(i)-kn+j)];
-        c_minus = c_minus + X*X';
-    end
-    c{i,2} = c_minus*(n/kn);
+    c{i,2} = c_plus*(n/kn);
 end
 
 
