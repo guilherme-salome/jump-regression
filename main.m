@@ -45,13 +45,19 @@ nj = length(jump_loc); % number of jumps
 
 %% Plot everything
 
-% plot stock price against market
+% Plot stock and market price
 f1 = figure;
+yyaxis left;
 plot(getSerialDate(sraw(:,1:2)),sraw(:,3),'LineWidth',0.5,'Color','blue');
+ylabel(['Price of ' stkr ': $P_t^{' stkr '}$'],'Interpreter','latex');
 hold on;
+yyaxis right;
 plot(getSerialDate(raw(:,1:2)),raw(:,3),'LineWidth',0.5,'Color','red'); 
+ylabel(['Price of ' tkr ': $P_t^{' tkr '}$'],'Interpreter','latex');
 datetick('x','yyyy');
 xlabel('Date: t','Interpreter','latex');
-ylabel('Price: $P_t$','Interpreter','latex');
 title(['Price of ' stkr ' and ' tkr],'Interpreter','latex');
+grid on;
 legend({['Price of ' stkr],['Price of ' tkr]},'Interpreter','latex');
+print('-dpng','-r200',['figures/price' stkr '-' tkr]);
+% 
