@@ -48,9 +48,9 @@ nj = length(jump_loc); % number of jumps
 [cv,rho,zeta] = jumpRegHT(ret,jump_loc,c,Q,nj,sig);
 rej = 'not rejected';
 if (1-rho^2) > (delta_n*cv/(Q(1,1)*Q(2,2))) 
-    % if null-hypothesis is rejected
-    rej = 'rejected';
+    rej = 'rejected'; % if null-hypothesis is rejected
 end
+pval = sum((det(Q)/delta_n)<=zeta)/length(zeta);
 
 %% Plot everything
 plotPrice; % Plot stock and market price
