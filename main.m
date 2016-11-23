@@ -6,7 +6,8 @@ clearWorkspace;
 n = 77; % returns per day
 T = 175110/(n+1); % number of days
 delta_n = 1/n;
-alpha = 4;
+alpha = 4; % used in the jump threshold
+sig = 0.05; % significance level
 kn = 11;
 
 %% Load Data for SPY
@@ -40,8 +41,12 @@ Q = getJumpCov(sret,ret,jump_loc); % jump covariance matrix
 
 nj = length(jump_loc); % number of jumps
 [sigma,R] = getSpotVol(c,Q,nj);
-[beta,beta_tilde] = jumpReg(sret,ret,Q,c,jump_loc,nj);
-[CI_low, CI_up] = jumpRegCI(beta,0.05,ret,c,Q,jump_loc,nj,delta_n);
+[beta,beta_tilde] = jumpReg(sret,ret,Q,c,jump_loc,nj); % jump beta
+[CI_low, CI_up] = jumpRegCI(beta,sig,ret,c,Q,jump_loc,nj,delta_n); % confidence intervals
+
+%% Hypothesis Testing
+[cv,rho,zeta] = jumpRegHT(ret,jump_loc,c,Q,nj,sig);
+rej = (1-rho^2) > (delta_n*cv/(Q(1,1)*Q(2,2))); % 1 if null-hypothesis is rejected
 
 %% Plot everything
 plotPrice; % Plot stock and market price
