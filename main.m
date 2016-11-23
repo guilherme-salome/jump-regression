@@ -35,8 +35,8 @@ scut = getCUT(alpha,stod,sBV,delta_n);
 
 %% Find Jump Location, Spot Covariances at Jumps and the Jump Beta
 jump_loc = find(abs(ret) > cut);
-[c,flag] = getSpotCov(sr_c,r_c,jump_loc,n,kn);
-Q = getJumpCov(sret,ret,jump_loc);
+[c,flag] = getSpotCov(sr_c,r_c,jump_loc,n,kn); % pre-jump and post-jump spot covariance matrices
+Q = getJumpCov(sret,ret,jump_loc); % jump covariance matrix
 
 nj = length(jump_loc); % number of jumps
 [sigma,R] = getSpotVol(c,Q,nj);
@@ -44,30 +44,6 @@ nj = length(jump_loc); % number of jumps
 [CI_low, CI_up] = jumpRegCI(beta,0.05,ret,c,Q,jump_loc,nj,delta_n);
 
 %% Plot everything
+plotPrice; % Plot stock and market price
+plotJumpReg; % Plot stock returns against market jumps
 
-%% Plot stock and market price
-f1 = figure;
-yyaxis left;
-plot(getSerialDate(sraw(:,1:2)),sraw(:,3),'LineWidth',0.5,'Color','blue');
-ylabel(['Price of ' stkr ': $P_t^{' stkr '}$'],'Interpreter','latex');
-hold on;
-yyaxis right;
-plot(getSerialDate(raw(:,1:2)),raw(:,3),'LineWidth',0.5,'Color','red'); 
-ylabel(['Price of ' tkr ': $P_t^{' tkr '}$'],'Interpreter','latex');
-datetick('x','yyyy');
-xlabel('Date: t','Interpreter','latex');
-title(['Price Evolution of ' stkr ' and ' tkr],'Interpreter','latex');
-grid on;
-legend({['Price of ' stkr],['Price of ' tkr]},'Interpreter','latex');
-print('-dpng','-r200',['figures/price' stkr '-' tkr]);
-
-%% Plot stock returns against market jumps
-scatter(ret(jump_loc),sret(jump_loc),10,'o','filled','red');
-xlabel(['Market jump return: ' '$r_t^{d,' tkr '}$'],'Interpreter','latex');
-ylabel(['Stock return: ' '$r_t^{' stkr '}$'],'Interpreter','latex');
-title('Market Jump Return effect on Stock Return','Interpreter','latex');
-x_grid = 1.1*min(ret(jump_loc)):0.01:1.1*max(ret(jump_loc));
-hold on; grid on;
-plot(x_grid,beta.*x_grid,'LineWidth',1,'Color','blue');
-legend({[tkr ' return vs. ' stkr ' jump return'],['Jump Regression: $\hat{r}_t^{' stkr '}=\hat{\beta}_{jump}r_t^{d,' tkr '}$']},'Interpreter','latex','Location','northwest');
-print('-dpng','-r200',['figures/jumpreg' stkr '-' tkr]);
