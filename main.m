@@ -45,7 +45,7 @@ nj = length(jump_loc); % number of jumps
 
 %% Plot everything
 
-% Plot stock and market price
+%% Plot stock and market price
 f1 = figure;
 yyaxis left;
 plot(getSerialDate(sraw(:,1:2)),sraw(:,3),'LineWidth',0.5,'Color','blue');
@@ -56,8 +56,18 @@ plot(getSerialDate(raw(:,1:2)),raw(:,3),'LineWidth',0.5,'Color','red');
 ylabel(['Price of ' tkr ': $P_t^{' tkr '}$'],'Interpreter','latex');
 datetick('x','yyyy');
 xlabel('Date: t','Interpreter','latex');
-title(['Price of ' stkr ' and ' tkr],'Interpreter','latex');
+title(['Price Evolution of ' stkr ' and ' tkr],'Interpreter','latex');
 grid on;
 legend({['Price of ' stkr],['Price of ' tkr]},'Interpreter','latex');
 print('-dpng','-r200',['figures/price' stkr '-' tkr]);
-% 
+
+%% Plot stock returns against market jumps
+scatter(ret(jump_loc),sret(jump_loc),10,'o','filled','red');
+xlabel(['Market jump return: ' '$r_t^{d,' tkr '}$'],'Interpreter','latex');
+ylabel(['Stock return: ' '$r_t^{' stkr '}$'],'Interpreter','latex');
+title('Market Jump Return effect on Stock Return','Interpreter','latex');
+x_grid = 1.1*min(ret(jump_loc)):0.01:1.1*max(ret(jump_loc));
+hold on; grid on;
+plot(x_grid,beta.*x_grid,'LineWidth',1,'Color','blue');
+legend({[tkr ' return vs. ' stkr ' jump return'],['Jump Regression: $\hat{r}_t^{' stkr '}=\hat{\beta}_{jump}r_t^{d,' tkr '}$']},'Interpreter','latex','Location','northwest');
+print('-dpng','-r200',['figures/jumpreg' stkr '-' tkr]);
