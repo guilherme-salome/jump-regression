@@ -8,7 +8,7 @@ function [sigma,R] = getSpotVol(c,Q,nj)
 % c: a njx2 cell of spot covariance estimates, where the first column
 %    contains the post-jump spot covarianca estimate, and the second column
 %    contains the pre-jump spot covariance estimate
-% Q: 
+% Q: 2x2 matrix estimator of the jump covariation matrix
 % nj: number of jumps in the market returns
 %
 % OUTPUT
