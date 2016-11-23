@@ -1,5 +1,8 @@
 function Q = getJumpCov(sret,ret,jump_loc)
 % getJumpCov estimates the Jump Covariance matrix of a bivariate process
+%            (covariance matrix for returns at market jump times)
+%
+% REFERENCE: equation 2.11 and its sample analogue after equation 3.1
 %
 % INPUT
 % sret: n*Tx1 vector of stock returns

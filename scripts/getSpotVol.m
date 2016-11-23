@@ -2,6 +2,8 @@ function [sigma,R] = getSpotVol(c,Q,nj)
 % getSpotVol estimates the spot volatility at a jump time without assuming
 %            the underlying volatility process is continuous at that time
 %
+% REFERENCE: equation 3.10 in Algorithm 1
+%
 % INPUT
 % c: a njx2 cell of spot covariance estimates, where the first column
 %    contains the post-jump spot covarianca estimate, and the second column

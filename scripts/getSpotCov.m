@@ -1,5 +1,9 @@
 function [c,flag] = getSpotCov(sr_c,r_c,j_loc,n,kn)
-% getSpotCov estimates the spot covariance matrix of a bivariate process
+% getSpotCov estimates the spot covariance matrix of a bivariate process,
+%            without assuming the underlying variance process is 
+%            continuous
+%
+% REFERENCE: equations 3.8 and 3.9
 %
 % INPUT
 % sr_c: n*Tx1 vector of continuous returns of the stock
