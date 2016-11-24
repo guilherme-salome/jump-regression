@@ -9,7 +9,7 @@ delta_n = 1/n;
 alpha = 4; % used in the jump threshold
 sig = 0.05; % significance level
 kn = 11;
-sim = 5000; % number of monte carlo simulations (used in CI and HT)
+sim = 1000; % number of monte carlo simulations (used in CI and HT)
 
 %% Load Data for SPY
 filename = 'data/SPY_5min.dat';
@@ -58,7 +58,9 @@ pval = sum((det(Q)/delta_n)<=zeta)/length(zeta);
 
 %% Plot everything
 plotPrice; % Plot stock and market price
+print('-dpng','-r200',['figures/price' stkr '-' tkr '-' FullSample]); % save as png
 plotJumpReg; % Plot stock returns against market jumps
+print('-dpng','-r200',['figures/jumpreg' stkr '-' tkr '-' FullSample]); % save as png
 
 %% Save Results
 results.(stkr) = struct();

@@ -27,7 +27,7 @@ r_d = ret(jump_loc);
 aux = sum(r_d.^2); % sum of market return jumps squared
 
 zeta = zeros(sim,1);
-for m = 1:sim
+parfor m = 1:sim
     [sigma,~] = getSpotVol(c,Q,nj);
     zeta(m) = (aux*sum(sigma.^2))-(sum(r_d.*sigma))^2;
 end

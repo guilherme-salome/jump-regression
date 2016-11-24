@@ -2,9 +2,22 @@
 addpath('scripts/'); % path to scripts
 clearWorkspace;
 
+%% Separate data by year
+past_index = 0;
+for y = 2007:2015
+
+filename = 'data/SPY_5min.dat';
+tkr = 'SPY';
+raw_full = load(filename);
+
+index = find(raw_full(:,1) == str2num([num2str(y) num2str(1231)]), 1, 'last' );
+if isempty(find(raw_full(:,1) == str2num([num2str(y) num2str(1231)]), 1, 'last' ))
+    index = find(raw_full(:,1) == str2num([num2str(y) num2str(1230)]), 1, 'last' );
+end
+
 %% Parameters
 n = 77; % returns per day
-T = 175110/(n+1); % number of days
+T = (index-past_index)/(n+1); % number of days
 delta_n = 1/n;
 alpha = 4; % used in the jump threshold
 sig = 0.05; % significance level
@@ -12,9 +25,7 @@ kn = 11;
 sim = 1000; % number of monte carlo simulations (used in CI and HT)
 
 %% Load Data for SPY
-filename = 'data/SPY_5min.dat';
-tkr = 'SPY';
-raw = load(filename);
+raw = raw_full(past_index+1:index,:); % cut data to get only 1 year
 
 %% SPY: Extract Returns, BV, TOD, Jump CUT, Diffusive Returns and Jump Returns
 [ret,dates] = getReturnAndDate(raw(:,1:2),raw(:,3),n,T);
@@ -23,10 +34,14 @@ tod = getTOD(ret,n,T); % time of day factor
 cut = getCUT(alpha,tod,BV,delta_n); % jump threshold
 [r_c,r_d] = separateReturns(ret,cut); % diffusive and jump returns
 
-%% Load Stock Data
-stocks = {'AIG_5min.dat','BLK_5min.dat','CB_5min.dat','C_5min.dat','GNTX_5min.dat','MET_5min.dat','MMC_5min.dat','MS_5min.dat','PNC_5min.dat','STT_5min.dat','TRV_5min.dat'}';
-stkr = 'BAC';
-sraw = load(['data/' stkr '_5min.dat']);
+%% Change stocks at each iteration and save results
+stocks = {'AIG','BLK','CB','C','GNTX','MET','MMC','MS','PNC','STT','TRV'}';
+% results = struct();
+
+for q = 1:length(stocks)
+stkr = stocks{q};
+sraw_full = load(['data/' stkr '_5min.dat']);
+sraw = sraw_full(past_index+1:index,:); % cut data to get only 1 year
 
 %% STOCK: Extract Returns, BV, TOD, Jump CUT, Diffusive Returns and Jump Returns
 [sret,~] = getReturnAndDate(sraw(:,1:2),sraw(:,3),n,T);
@@ -55,6 +70,19 @@ pval = sum((det(Q)/delta_n)<=zeta)/length(zeta);
 
 %% Plot everything
 plotPrice; % Plot stock and market price
-print('-dpng','-r200',['figures/price' stkr '-' tkr '-' FullSample]); % save as png
+print('-dpng','-r200',['figures/price' stkr '-' tkr '-' num2str(y)]); % save as png
 plotJumpReg; % Plot stock returns against market jumps
-print('-dpng','-r200',['figures/jumpreg' stkr '-' tkr '-' FullSample]); % save as png
+print('-dpng','-r200',['figures/jumpreg' stkr '-' tkr '-' num2str(y)]); % save as png
+
+%% Save Results
+% results.(stkr) = struct();
+% results.(stkr).beta = beta;
+% results.(stkr).CI = [CI_low, CI_up];
+% results.(stkr).cv = cv;
+% results.(stkr).pval = pval;
+
+disp('STEP');
+end
+disp(['DONE' num2str(y)]);
+past_index = index; % update index
+end

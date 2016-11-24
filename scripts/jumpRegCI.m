@@ -23,7 +23,7 @@ beta_tilde = Q(1,2)/Q(1,1);
 % sim = 10000; % number of monte carlo simulations
 zeta = zeros(sim,1);
 
-for m = 1:sim
+parfor m = 1:sim
     [sigma,~] = getSpotVol(c,Q,nj);
     numerator = 0;
     denominator = 0;

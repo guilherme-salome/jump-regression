@@ -13,6 +13,4 @@ f2l = legend({[tkr ' return vs. ' stkr ' jump return'],['Jump Regression: $\hat{
 % change font size
 set(findall(f2,'type','text'),'FontSize',15);
 set(f2l,'FontSize',11);
-% save as png
-print('-dpng','-r200',['figures/jumpreg' stkr '-' tkr]);
 

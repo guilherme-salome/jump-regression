@@ -11,5 +11,7 @@ datetick('x','yyyy');
 xlabel('Date: t','Interpreter','latex');
 title(['Price Evolution of ' stkr ' and ' tkr],'Interpreter','latex');
 grid on;
-legend({['Price of ' stkr],['Price of ' tkr]},'Interpreter','latex');
-print('-dpng','-r200',['figures/price' stkr '-' tkr]);
+f1l = legend({['Price of ' stkr],['Price of ' tkr]},'Interpreter','latex');
+% change font size
+set(findall(f1,'type','text'),'FontSize',15);
+set(f1l,'FontSize',11);
