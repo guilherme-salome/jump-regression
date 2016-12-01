@@ -6,8 +6,8 @@ function [J,jump_location] = simPureJump(lambda,sigma,T,n)
 %         1.25 years (or 315 days), then lambda is the number of jumps per 
 %         year, like 15/252;
 % sigma: a number, daily standard deviation of the price process
-% T: a number, like the total number of days
-% n: a number, like the total number of returns in a day
+% T: a number, the total number of days
+% n: a number, the total number of PRICES in a day
 % 
 % OUTPUT:
 % J: a n*Tx1 vector containing the accumulated jumps
