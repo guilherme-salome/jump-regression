@@ -4,12 +4,12 @@ clearWorkspace;
 
 %% Separate data by year
 past_index = 0;
-for y = 2007:2015
-
+for y = 2007:2015 % selects the year of the data
 filename = 'data/SPY_5min.dat';
 tkr = 'SPY';
-raw_full = load(filename);
+raw_full = load(filename); % load the full sample data 
 
+% find the last index of the year 'y'
 index = find(raw_full(:,1) == str2num([num2str(y) num2str(1231)]), 1, 'last' );
 if isempty(find(raw_full(:,1) == str2num([num2str(y) num2str(1231)]), 1, 'last' ))
     index = find(raw_full(:,1) == str2num([num2str(y) num2str(1230)]), 1, 'last' );
