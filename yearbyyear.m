@@ -10,9 +10,9 @@ tkr = 'SPY';
 raw_full = load(filename); % load the full sample data 
 
 % find the last index of the year 'y'
-index = find(raw_full(:,1) == str2num([num2str(y) num2str(1231)]), 1, 'last' );
-if isempty(find(raw_full(:,1) == str2num([num2str(y) num2str(1231)]), 1, 'last' ))
-    index = find(raw_full(:,1) == str2num([num2str(y) num2str(1230)]), 1, 'last' );
+index = find(raw_full(:,1) == str2num([num2str(y) num2str(1231)]), 1, 'last' ); % try to find the last day of december
+if isempty(find(raw_full(:,1) == str2num([num2str(y) num2str(1231)]), 1, 'last' )) % if not available
+    index = find(raw_full(:,1) == str2num([num2str(y) num2str(1230)]), 1, 'last' ); % try to find the second-last day of december
 end
 
 %% Parameters
